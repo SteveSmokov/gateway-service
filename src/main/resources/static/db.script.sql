@@ -1,0 +1,8 @@
+--create database warehouse_db;
+--create user tools with password 'tools';
+--grant connect on database warehouse_db to tools WITH GRANT OPTION;
+--grant all privileges on database warehouse_db to tools WITH GRANT OPTION;
+--revoke all privileges on database warehouse_db from tools WITH GRANT OPTION
+--create schema if not exists warehouse;
+--create schema if not exists tools;
+--grant all privileges on schema tools to tools WITH GRANT OPTION;

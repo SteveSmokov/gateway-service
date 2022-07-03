@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1
+      author: s.smokov
+      changes:
+        - sqlFile:
+            dbms: 'postgresql'
+            endDelimiter:  \nGO
+            splitStatements: true
+            path: db/changelogs/changelog-0.0.1.sql
+            stripComments: true
+#  -include:
+#    file: classpath:db/changelogs/changelog-0.0.1.sql
+#    context: dev, prod
