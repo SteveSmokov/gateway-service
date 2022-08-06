@@ -1,0 +1,27 @@
+server:
+  port: 8070
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/warehouse_db
+    username: tools
+    password: tools
+  jpa:
+    properties:
+      hibernate:
+        order_inserts: true
+        jdbc:
+          batch_size: 4
+  liquibase:
+    change-log: classpath:db/main-changeLog.yaml
+    url: jdbc:postgresql://localhost:5432/warehouse_db
+    user: tools
+    password: tools
+    liquibaseSchema: tools
+security:
+  jwt:
+    private-key:  test_key
+    expired:
+      in:
+        milliseconds: 300000

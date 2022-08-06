@@ -14,4 +14,11 @@ public class Role extends BaseEntity implements Serializable {
     private String name;
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users;
+
+    public Role(String name) {
+        this.name = name;
+    }
+
+    public Role() {
+    }
 }

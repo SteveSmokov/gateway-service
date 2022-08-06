@@ -3,57 +3,71 @@ package com.example.gatewayservice.configs;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 @Data
 @ToString
-@ConfigurationProperties(prefix = "urls")
+@ConfigurationProperties(prefix = "gateway")
 public class GatewayUrlsProps {
-    private List<Url> unauthorized;
+    private List<Url> urls;
 
     public GatewayUrlsProps() {
     }
 
-    public GatewayUrlsProps(List<Url> unauthorized) {
-        this.unauthorized = unauthorized;
+    public GatewayUrlsProps(List<Url> urls) {
+        this.urls = urls;
     }
 
-    public List<Url> getUnauthorized() {
-        return unauthorized;
+    public List<Url> getUrls() {
+        return urls;
     }
 
-    public void setUnauthorized(List<Url> unauthorized) {
-        this.unauthorized = unauthorized;
+    public void setUrls(List<Url> urls) {
+        this.urls = urls;
     }
 
+    public boolean checkMethod(String url, HttpMethod method){
+        return urls.stream().anyMatch(u -> {
+            if (u.path.equals(url)) {
+                return u.methods.stream().anyMatch(m -> m.equals(method));
+            } else  return false;
+        });
+    }
 
-    @Override
-    public String toString() {
-        return "GatewayUrlsProps{" +
-                "unauthorized=" + unauthorized +
-                '}';
+    public Optional<String> getRedirectUrl(String url, HttpMethod method){
+        return urls.stream().filter(u -> {
+            if (u.path.equals(url)) {
+                return u.methods.stream().anyMatch(m -> m.equals(method));
+            }
+            return false;
+        }).map(url1 -> url1.redirectUrl).findFirst();
     }
 
     public static class Url {
         private String path;
-        private List<String> methods;
+        private Set<HttpMethod> methods;
+        private String redirectUrl;
 
         public Url() {
         }
 
-        public Url(String path, List<String> methods) {
+        public Url(String path, Set<HttpMethod> methods, String redirectUrl) {
             this.path = path;
             this.methods = methods;
+            this.redirectUrl = redirectUrl;
         }
 
-        public List<String> getMethods() {
+        public Set<HttpMethod> getMethods() {
             return methods;
         }
 
-        public void setMethods(List<String> methods) {
+        public void setMethods(Set<HttpMethod> methods) {
             this.methods = methods;
         }
 
@@ -65,11 +79,20 @@ public class GatewayUrlsProps {
             this.path = path;
         }
 
+        public String getRedirectUrl() {
+            return redirectUrl;
+        }
+
+        public void setRedirectUrl(String redirectUrl) {
+            this.redirectUrl = redirectUrl;
+        }
+
         @Override
         public String toString() {
             return "Url{" +
                     "path='" + path + '\'' +
                     ", methods=" + methods +
+                    ", redirectUrl='" + redirectUrl + '\'' +
                     '}';
         }
     }

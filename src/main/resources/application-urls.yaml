@@ -1,0 +1,11 @@
+gateway:
+  urls:
+    - path: /api/v1/auth/login-test
+      methods:
+        - POST
+      redirectUrl: https://127.0.0.1:8071/test
+    - path: /api/v1/user/register
+      methods:
+        - POST
+        - DELETE
+      redirectUrl: https://127.0.0.1:8072/register-test

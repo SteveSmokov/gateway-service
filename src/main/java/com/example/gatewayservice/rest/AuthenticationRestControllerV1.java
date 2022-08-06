@@ -24,7 +24,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth/")
-@Validated
 public class AuthenticationRestControllerV1 {
 
     private final AuthenticationManager authenticationManager;
@@ -38,6 +37,7 @@ public class AuthenticationRestControllerV1 {
         this.userService = userService;
     }
 
+    @Validated
     @PostMapping(value = "login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

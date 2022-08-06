@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 
 @Data
-public class AuthenticationRequestDto {
+public class AuthenticationRequestDto implements Serializable {
     @NotEmpty(
             message = "Username is obligatory"
     )
